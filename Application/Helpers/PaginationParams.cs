@@ -1,4 +1,4 @@
-﻿namespace Unite.Application.Helpers
+﻿namespace Unite.WebApi.Application.Helpers
 {
     public class PaginationParams
     {

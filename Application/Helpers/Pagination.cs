@@ -1,4 +1,4 @@
-﻿namespace Unite.Application.Helpers
+﻿namespace Unite.WebApi.Application.Helpers
 {
     public class Pagination<T> where T : class
     {
@@ -17,7 +17,7 @@
             CurrentPage = currentPage;
             PageSize = pageSize;
 
-            TotalPages = (int)Math.Ceiling((double)TotalPages / (double)PageSize);
+            TotalPages = (int)Math.Ceiling(TotalPages / (double)PageSize);
 
             HasPreviousPage = CurrentPage > 1;
             HasNextPage = CurrentPage < TotalPages;

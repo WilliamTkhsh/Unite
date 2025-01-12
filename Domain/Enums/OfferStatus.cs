@@ -1,4 +1,4 @@
-﻿namespace Unite.Domain.Enums
+﻿namespace Unite.WebApi.Domain.Enums
 {
     public enum OfferStatus
     {

@@ -1,9 +1,11 @@
-﻿using Unite.Application.Filters;
-using Unite.Application.Helpers;
-using Unite.Domain.Entities;
-using Unite.Infrastructure.Repositories.Offers;
+﻿using Unite.WebApi.Application.Filters;
+using Unite.WebApi.Application.Helpers;
+using Unite.WebApi.Application.Mappers;
+using Unite.WebApi.Application.ViewModels.Offers;
+using Unite.WebApi.Domain.Entities;
+using Unite.WebApi.Infrastructure.Repositories.Offers;
 
-namespace Unite.Application.Services.OfferService
+namespace Unite.WebApi.Application.Services.OfferService
 {
     public class OfferService : IOfferService
     {
@@ -21,7 +23,7 @@ namespace Unite.Application.Services.OfferService
         {
             try
             {
-                var offers = await _offerRepository.GetPaginatedOffersAsync(filter, paginationParams);
+                var offers = await _offerRepository.FindPaginatedOffersAsync(filter, paginationParams);
 
                 return offers;
             }
@@ -36,19 +38,17 @@ namespace Unite.Application.Services.OfferService
         {
             try
             {
-                var offer = await _offerRepository.GetOfferByIdAsync(id);
+                var offer = await _offerRepository.FindOfferByIdAsync(id);
 
                 return offer;
-
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
 
-        public async Task<Offer> CreateOfferAsync(Offer offer)
+        public async Task CreateOfferAsync(OfferInput offerInput)
         {
             try
             {
@@ -59,10 +59,9 @@ namespace Unite.Application.Services.OfferService
                 //{
                 //    return userOffer;
                 //}
+                var offer = OfferMapper.MapInputToOfferModel(offerInput);
 
-                var newOffer = await _offerRepository.InsertOfferAsync(offer);
-
-                return newOffer;
+                await _offerRepository.InsertOfferAsync(offer);
             }
             catch (Exception)
             {
@@ -71,16 +70,18 @@ namespace Unite.Application.Services.OfferService
             }
         }
 
-        public async Task<Offer> UpdateOfferAsync(string id, Offer offer)
+        public async Task<Offer> UpdateOfferAsync(string id, OfferInput offerInput)
         {
             try
             {
-                var oldOffer = await _offerRepository.GetOfferByIdAsync(id);
+                var oldOffer = await _offerRepository.FindOfferByIdAsync(id);
 
                 if (oldOffer == null)
                 {
                     throw new Exception($"Offer {id} does not exists");
                 }
+
+                var offer = OfferMapper.MapInputToOfferModel(offerInput);
 
                 var updatedOffer = await _offerRepository.UpdateOfferAsync(id, offer);
 
@@ -97,7 +98,7 @@ namespace Unite.Application.Services.OfferService
         {
             try
             {
-                var offer = await _offerRepository.GetOfferByIdAsync(id);
+                var offer = await _offerRepository.FindOfferByIdAsync(id);
 
                 if (offer == null)
                 {

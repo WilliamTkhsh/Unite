@@ -1,18 +1,18 @@
-﻿using Unite.Application.Filters;
-using Unite.Application.Helpers;
-using Unite.Domain.Entities;
+﻿using Unite.WebApi.Application.Filters;
+using Unite.WebApi.Application.Helpers;
+using Unite.WebApi.Domain.Entities;
 
-namespace Unite.Infrastructure.Repositories.Offers
+namespace Unite.WebApi.Infrastructure.Repositories.Offers
 {
     public interface IOfferRepository
     {
-        public Task<Pagination<IEnumerable<Offer>>> GetPaginatedOffersAsync(OfferFilter offerFilter, PaginationParams paginationParams);
+        public Task<Pagination<IEnumerable<Offer>>> FindPaginatedOffersAsync(OfferFilter offerFilter, PaginationParams paginationParams);
 
-        public Task<Offer> GetOfferByIdAsync(string id);
+        public Task<Offer> FindOfferByIdAsync(string id);
 
-        public Task<Offer> GetOfferByUserIdAsync(string userId);
+        public Task<Offer> FindOfferByUserIdAsync(string userId);
 
-        public Task<Offer> InsertOfferAsync(Offer offer);
+        public Task InsertOfferAsync(Offer offer);
 
         public Task<Offer> UpdateOfferAsync(string id, Offer offer);
 

@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Unite.Application.Filters;
-using Unite.Application.Helpers;
-using Unite.Application.Services.OfferService;
-using Unite.Domain.Entities;
+using System.Net;
+using Unite.WebApi.Application.Filters;
+using Unite.WebApi.Application.Helpers;
+using Unite.WebApi.Application.Services.OfferService;
+using Unite.WebApi.Application.ViewModels.Offers;
+using Unite.WebApi.Domain.Entities;
 
-namespace Unite.Controllers
+namespace Unite.WebApi.Controllers
 {
     [Route("api/offers")]
     [ApiController]
@@ -20,45 +22,50 @@ namespace Unite.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetPaginatedOffers([FromQuery] OfferFilter filter, [FromQuery] PaginationParams paginationParams)
+        public async Task<IActionResult> GetPaginatedOffers([FromQuery] OfferFilter filter, [FromQuery] PaginationParams paginationParams)
         {
             _logger.LogInformation($"Initiating method {nameof(GetPaginatedOffers)}.");
 
-            var result = _offerService.GetPaginatedOffersAsync(filter, paginationParams);
-            return Ok();
-        }
-
-        [HttpGet]
-        [Route("{id}")]
-        public IActionResult GetOfferById([FromRoute] string offerId)
-        {
-            _logger.LogInformation($"Initiating method {nameof(GetOfferById)}.");
-            return Ok(offerId);
-        }
-
-        [HttpPost]        
-        public IActionResult CreateOffer([FromBody] Offer offer)
-        {
-            _logger.LogInformation($"Initiating method {nameof(CreateOffer)}.");
-            var result = _offerService.CreateOfferAsync(offer);
+            var result = await _offerService.GetPaginatedOffersAsync(filter, paginationParams);
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("{offerId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetOfferById([FromRoute] string offerId)
+        {
+            _logger.LogInformation($"Initiating method {nameof(GetOfferById)}.");
+            var offer = await _offerService.GetOfferByIdAsync(offerId);
+            return Ok(offer);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateOffer([FromBody] OfferInput offer)
+        {
+            _logger.LogInformation($"Initiating method {nameof(CreateOffer)}.");
+            await _offerService.CreateOfferAsync(offer);
+            return Created();
+        }
+
         [HttpPut]
-        [Route("{id}")]
-        public IActionResult UpdateOffer([FromRoute] string offerId, [FromBody] Offer offer)
+        [Route("{offerId}")]
+        public async Task<IActionResult> UpdateOffer([FromRoute] string offerId, [FromBody] OfferInput offer)
         {
             _logger.LogInformation($"Initiating method {nameof(UpdateOffer)}.");
-            var result = _offerService.UpdateOfferAsync(offerId, offer);
+            var result = await _offerService.UpdateOfferAsync(offerId, offer);
             return Ok(result);
         }
 
         [HttpDelete]
-        [Route("{id}")]
-        public IActionResult DeleteOffer([FromRoute] string offerId)
+        [Route("{offerId}")]
+        public async Task<IActionResult> DeleteOffer([FromRoute] string offerId)
         {
             _logger.LogInformation($"Initiating method {nameof(DeleteOffer)}.");
-            var result = _offerService.DeleteOfferAsync(offerId);
+            var result = await _offerService.DeleteOfferAsync(offerId);
             return Ok(result);
         }
     }

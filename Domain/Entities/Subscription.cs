@@ -1,9 +1,15 @@
-﻿using Unite.Domain.Enums;
+﻿using Unite.WebApi.Domain.Enums;
 
-namespace Unite.Domain.Entities
+namespace Unite.WebApi.Domain.Entities
 {
     public class Subscription
     {
+        public int SubscriptionId { get; set; }
+
+        public Guid OfferId { get; set; }
+
+        public Guid UserId { get; set; }
+
         public Position Position { get; set; }
 
         public string Notes { get; set; }

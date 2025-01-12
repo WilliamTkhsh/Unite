@@ -1,14 +1,10 @@
 ﻿using Unite.WebApi.Domain.Enums;
 
-namespace Unite.WebApi.Domain.Entities
+namespace Unite.WebApi.Application.ViewModels.Offers
 {
-    public class Offer
+    public class OfferInput
     {
-        public Guid Id { get; set; }
-
         public string Queue { get; set; }
-
-        public DateTime CreatedAt { get; set; }
 
         public string TargetTier { get; set; }
 
@@ -23,9 +19,5 @@ namespace Unite.WebApi.Domain.Entities
         public Position? TargetPosition4 { get; set; }
 
         public string? Notes { get; set; }
-
-        public OfferStatus Status { get; set; }
-
-        public List<Subscription> Subscriptions { get; set; }
     }
 }

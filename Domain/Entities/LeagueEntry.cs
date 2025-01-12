@@ -1,6 +1,6 @@
-﻿using Unite.Domain.Enums;
+﻿using Unite.WebApi.Domain.Enums;
 
-namespace Unite.Domain.Entities
+namespace Unite.WebApi.Domain.Entities
 {
     public class LeagueEntry
     {

@@ -1,7 +1,7 @@
-﻿using Unite.Domain.Entities;
-using Unite.Domain.Enums;
+﻿using Unite.WebApi.Domain.Entities;
+using Unite.WebApi.Domain.Enums;
 
-namespace Unite.Application.Filters
+namespace Unite.WebApi.Application.Filters
 {
     public class OfferFilter
     {

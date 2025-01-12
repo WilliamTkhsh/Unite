@@ -1,4 +1,4 @@
-﻿namespace Unite.Domain.Entities
+﻿namespace Unite.WebApi.Domain.Entities
 {
     public class LeagueProfile
     {
